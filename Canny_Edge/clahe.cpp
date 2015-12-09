@@ -10,6 +10,7 @@
 #include <math.h>
 
 #include <vector>
+#include <arm_neon.h>
 
 void make_histogram(long* hist, cv::Mat in) {
     for (int i = 0; i < in.rows; i++) {
@@ -19,7 +20,7 @@ void make_histogram(long* hist, cv::Mat in) {
     }
 }
 
-void clip_histogram(long* hist, long clip_limit) {
+void clip_histogram(long* hist, long clip_limit, bool strict) {
     
     long num_excess = 0, incr, upper;
     for (int i = 0; i < 256; i++) {
@@ -29,36 +30,51 @@ void clip_histogram(long* hist, long clip_limit) {
     
     incr = num_excess / 256;
     upper = clip_limit - incr;
-    for (int i = 0; i < 256; i++) {
-        if (hist[i] > clip_limit) hist[i] = clip_limit;
-        else {
-            if (hist[i] > upper) {
-                num_excess -= hist[i] - upper;
-                hist[i] = clip_limit;
+    
+    if (strict) {
+        for (int i = 0; i < 256; i++) {
+            if (hist[i] > clip_limit) hist[i] = clip_limit;
+            else {
+                if (hist[i] > upper) {
+                    num_excess -= hist[i] - upper;
+                    hist[i] = clip_limit;
+                }
+                else {
+                    num_excess -= incr;
+                    hist[i] += incr;
+                }
+            }
+        }
+        
+        while (num_excess) {
+            long* end = hist + 256, *cur = hist;
+            
+            while (num_excess && cur < end) {
+                long step_size = 256 / num_excess;
+                if (step_size < 1) step_size = 1;
+                for (auto bin = cur; bin < end && num_excess; bin += step_size) {
+                    if (*bin < clip_limit) {
+                        (*bin)++;
+                        num_excess--;
+                    }
+                }
+                cur++;
+            }
+            
+        }
+    }
+    
+    else {
+        for (int i = 0; i < 256; i++) {
+            if (hist[i] > clip_limit) {
+                hist[i] = clip_limit + incr;
             }
             else {
-                num_excess -= incr;
                 hist[i] += incr;
             }
         }
     }
-    
-    while (num_excess) {
-        long* end = hist + 256, *cur = hist;
-        
-        while (num_excess && cur < end) {
-            long step_size = 256 / num_excess;
-            if (step_size < 1) step_size = 1;
-            for (auto bin = cur; bin < end && num_excess; bin += step_size) {
-                if (*bin < clip_limit) {
-                    (*bin)++;
-                    num_excess--;
-                }
-            }
-            cur++;
-        }
-        
-    }
+
 }
 
 void map_histogram(long* hist, int min, int max, size_t num_pixels) {
@@ -84,19 +100,36 @@ void interpolate(cv::Mat in, long* histLU, long* histRU, long* histLB, long* his
     int norm = tile_size * tile_size;
     int xCoef, xInvCoef, yCoef, yInvCoef;
     
+    int log = 0;
+    while (norm>>=1) log++;
     for (yCoef = 0, yInvCoef = tile_size; yCoef < tile_size; yCoef++, yInvCoef--) {
         for (xCoef = 0, xInvCoef = tile_size; xCoef < tile_size; xCoef++, xInvCoef--) {
-            uchar val = in.at<uchar>(start_y + yCoef, start_x + xCoef);
-
-            out.at<uchar>(start_y + yCoef, start_x + xCoef) =
-                (uchar)((yInvCoef * (xInvCoef*histLU[val] + xCoef*histRU[val])
-                        + yCoef * (xInvCoef*histLB[val] + xCoef*histRB[val])) / norm);
+            int x = start_x + xCoef, y = start_y + yCoef;
+            if (y < out.rows && x < out.cols) {
+                auto val = in.at<uchar>(y, x);
+                out.at<uchar>(y, x) =
+                    ((yInvCoef * (xInvCoef*histLU[val] + xCoef*histRU[val])
+                      + yCoef * (xInvCoef*histLB[val] + xCoef*histRB[val])) >> log);
+            }
         }
     }
     
+//    for (yCoef = 0, yInvCoef = tile_size; yCoef < tile_size; yCoef++, yInvCoef--) {
+//        for (xCoef = 0, xInvCoef = tile_size; xCoef < tile_size; xCoef++, xInvCoef--) {
+//            if (start_y + yCoef < out.rows && start_x + xCoef < out.cols) {
+//                uchar val = in.at<uchar>(start_y + yCoef, start_x + xCoef);
+//                
+//                out.at<uchar>(start_y + yCoef, start_x + xCoef) =
+//                (uchar)((yInvCoef * (xInvCoef*histLU[val] + xCoef*histRU[val])
+//                         + yCoef * (xInvCoef*histLB[val] + xCoef*histRB[val])) / norm);
+//            }
+//
+//        }
+//    }
+    
 }
 
-cv::Mat clahe_interp(cv::Mat in, int tile_size, float cl) {
+cv::Mat clahe_interp(cv::Mat in, cv::Mat mirrored, int tile_size, float cl) {
     if (in.channels() != 1) {
         printf("must be grayscale\n");
         return in;
@@ -106,10 +139,6 @@ cv::Mat clahe_interp(cv::Mat in, int tile_size, float cl) {
         printf("tile size must be even\n");
         return in;
     }
-    
-    
-    cv::Mat mirrored;
-    cv::copyMakeBorder(in, mirrored, tile_size, tile_size, tile_size, tile_size, cv::BORDER_REFLECT);
     
     cv::Mat out(in.rows, in.cols, in.type());
     
@@ -127,14 +156,14 @@ cv::Mat clahe_interp(cv::Mat in, int tile_size, float cl) {
 
             cv::Mat roi = mirrored(cv::Range(i * tile_size + tile_size/2, i * tile_size + 3*tile_size/2), cv::Range(j * tile_size + tile_size/2, j * tile_size + 3*tile_size/2));
             make_histogram(hist, roi);
-            clip_histogram(hist, clip_limit);
+            clip_histogram(hist, clip_limit, true);
             map_histogram(hist, 0, 255, tile_size * tile_size);
         }
     }
     
 //    printf("%ld\n", (hists + 256*(89*nrX + 20))[70]);
     
-    int tileX = 0, tileY = 0;
+    int tileX = 0, tileY = 0, startX = 0, startY = 0;
     
     int tileYU, tileYB, tileXL, tileXR;
     
@@ -151,7 +180,7 @@ cv::Mat clahe_interp(cv::Mat in, int tile_size, float cl) {
             tileYU = tileY - 1;
             tileYB = tileY;
         }
-        for (tileX = 0; tileX <= nrX; tileX++) {
+        for (tileX = 0, startX = 0; tileX <= nrX; tileX++) {
             if (tileX == 0) {
                 tileXL = 0; tileXR = 0;
             }
@@ -168,12 +197,19 @@ cv::Mat clahe_interp(cv::Mat in, int tile_size, float cl) {
             histRU = hists + (256 * (tileYU * nrX + tileXR));
             histLB = hists + (256 * (tileYB * nrX + tileXL));
             histRB = hists + (256 * (tileYB * nrX + tileXR));
+        
+            interpolate(in, histLU, histRU, histLB, histRB, tile_size, startX, startY, out);
             
-            interpolate(in, histLU, histRU, histLB, histRB, tile_size, tileX * tile_size, tileY * tile_size, out);
+            if (tileX == 0) startX += tile_size/2;
+            else startX += tile_size;
         }
         
+        if (tileY == 0) startY += tile_size/2;
+        else startY += tile_size;
         
     }
+    
+    free(hists);
     
     return out;
 }
@@ -205,7 +241,6 @@ cv::Mat clahe_naive(cv::Mat in, int tile_size, float cl) {
     long* hist = (long*)calloc(256, sizeof(long));
     
     for (int i = 0; i < in.rows; i++) {
-        printf("%d of %d\n", i, in.rows);
         for (int j = 0; j < in.cols; j++) {
             cv::Mat roi = mirrored(cv::Range(i + tile_size/2, i + 3*tile_size/2), cv::Range(j + tile_size/2, j + 3*tile_size/2));
             memset(hist, 0, 256 * sizeof(long));
@@ -223,7 +258,7 @@ cv::Mat clahe_naive(cv::Mat in, int tile_size, float cl) {
 //                }
 //            }
             
-            clip_histogram(hist, clip_limit);
+            clip_histogram(hist, clip_limit, false);
             map_histogram(hist, min, max, tile_size * tile_size);
             
 //            auto val = hist[in.at<uchar>(i, j)];

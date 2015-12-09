@@ -12,7 +12,8 @@
 #include <stdio.h>
 #include <opencv2/opencv.hpp> // Includes the opencv library
 
-cv::Mat clahe_interp(cv::Mat in, int tile_size, float cl);
+cv::Mat clahe_neon(cv::Mat in, cv::Mat mirrored, int tile_size, float cl, int num_bins);
+cv::Mat clahe_interp(cv::Mat in, cv::Mat mirrored, int tile_size, float cl);
 cv::Mat clahe_naive(cv::Mat in, int tile_size, float cl);
 
 cv::Mat he_naive(cv::Mat in);

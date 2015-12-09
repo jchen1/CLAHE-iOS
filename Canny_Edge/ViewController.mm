@@ -14,6 +14,8 @@
 
 #include "clahe.hpp"
 
+#include <sys/time.h>
+
 #endif
 
 using namespace std;
@@ -31,7 +33,7 @@ using namespace std;
     // Do any additional setup after loading the view, typically from a nib.
     
     // Read in the image
-    UIImage *image = [UIImage imageNamed:@"prince_book.jpg"];
+    UIImage *image = [UIImage imageNamed:@"720.jpg"];
     if(image == nil) cout << "Cannot read in the file prince_book.jpg!!" << endl;
     
     // Setup the display
@@ -50,11 +52,31 @@ using namespace std;
     cv::Mat display_im; cv::cvtColor(gray,display_im,CV_GRAY2BGR); // Get the display image
     
 //    cv::Mat le = clahe_naive(gray, 8, 2.0);
-    cv::Mat le;
-//    for (int i = 0; i < 100; i++)
-        le = clahe_interp(gray, 8, 2.0);
     
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    long start = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+    
+    int num_imgs = 50;
+    
+    int tile_size = 8;
+    
+    cv::Mat mirrored;
+    cv::copyMakeBorder(gray, mirrored, tile_size, tile_size, tile_size, tile_size, cv::BORDER_REFLECT);
+    
+    cv::Mat le;
+    for (int i = 0; i < num_imgs; i++){
+//        printf("%d\n", i);
+//        le = clahe_interp(gray, mirrored, tile_size, 3.0);
+        le = clahe_neon(gray, mirrored, tile_size, 3.0, 256);
+//        le = clahe_naive(gray, 8, 3.0);
+    }
+    
+    gettimeofday(&time, NULL);
+    long finish = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+    printf("took %ld ms to finish, %f ms per img\n", finish - start, (finish - start)/(num_imgs*1.));
     display_im = le;
+//    display_im = gray;
 
     cv::cvtColor(display_im, display_im, CV_GRAY2RGBA);
     
