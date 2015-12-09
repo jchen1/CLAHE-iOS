@@ -1,0 +1,32 @@
+dependencies: \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/Canny_Edge/ViewController.mm \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/Canny_Edge/ViewController.h \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/opencv.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/core/core_c.h \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/core/types_c.h \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/core/core.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/core/version.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/core/operations.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/core/mat.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/flann/miniflann.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/flann/defines.h \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/flann/config.h \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/imgproc/imgproc_c.h \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/imgproc/types_c.h \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/imgproc/imgproc.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/photo/photo.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/photo/photo_c.h \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/video/video.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/video/tracking.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/video/background_segm.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/features2d/features2d.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/objdetect/objdetect.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/calib3d/calib3d.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/core/affine.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/ml/ml.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/highgui/highgui_c.h \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/highgui/highgui.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/contrib/contrib.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/contrib/retina.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/opencv2.framework/Headers/contrib/openfabmap.hpp \
+  /Users/jeff/Documents/School/16423/final/Canny_Edge/Canny_Edge/clahe.hpp
