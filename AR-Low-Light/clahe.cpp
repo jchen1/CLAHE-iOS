@@ -77,15 +77,12 @@ void clip_histogram(long* hist, long clip_limit, bool strict) {
 }
 
 void map_histogram(long* hist, int min, int max, size_t num_pixels) {
-//    long cdf_min = hist[min];
     const double fScale = 255. / num_pixels;
     
     long accum = 0;
     
     for (int i = 0; i < 256; i++) {
         accum += hist[i];
-//        hist[i] = roundl((accum - cdf_min) / (fScale) * (max - min)) + min;
-//        hist[i] = roundl((accum - cdf_min) / fScale * 255);
         hist[i] = (unsigned long)(accum * fScale);
         
         if (hist[i] > 255) hist[i] = 255;
@@ -137,7 +134,6 @@ cv::Mat clahe_interp(cv::Mat in, cv::Mat mirrored, int tile_size, float cl) {
     for (int i = 0; i < nrY; i++) {
         for (int j = 0; j < nrX; j++) {
             long* hist = hists + 256*(i*nrX + j);
-//            cv::Mat roi = mirrored(cv::Range(i * tile_size, (i + 1) * tile_size), cv::Range(j * tile_size, (j + 1) * tile_size));
 
             cv::Mat roi = mirrored(cv::Range(i * tile_size + tile_size/2, i * tile_size + 3*tile_size/2), cv::Range(j * tile_size + tile_size/2, j * tile_size + 3*tile_size/2));
             make_histogram(hist, roi);
@@ -145,8 +141,6 @@ cv::Mat clahe_interp(cv::Mat in, cv::Mat mirrored, int tile_size, float cl) {
             map_histogram(hist, 0, 255, tile_size * tile_size);
         }
     }
-    
-//    printf("%ld\n", (hists + 256*(89*nrX + 20))[70]);
     
     int tileX = 0, tileY = 0, startX = 0, startY = 0;
     

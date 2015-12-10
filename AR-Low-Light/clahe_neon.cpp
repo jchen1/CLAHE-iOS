@@ -14,6 +14,8 @@
 #include <vector>
 #include <arm_neon.h>
 
+// Given the array of histograms and the starting row of the image,
+// properly update the histograms with the input image's row.
 void make_histograms(uint16_t* hists, cv::Mat in, uint8_t rshift, int row, int tile_size, int num_bins) {
     int tile = ((row / tile_size)*(in.cols / tile_size)) - 1;
     
@@ -25,7 +27,8 @@ void make_histograms(uint16_t* hists, cv::Mat in, uint8_t rshift, int row, int t
     }
 }
 
-// Reduces (adds up) the values in vec
+// Reduces (adds up) the 16 values in vec in 5 instructions (assuming
+// instruction-level parallelism)
 int vredq_u8(uint8x16_t vec) {
     uint8x8_t high = vget_high_u8(vec), low = vget_low_u8(vec);
     
@@ -41,6 +44,8 @@ int vredq_u8(uint8x16_t vec) {
     return (int)(vget_lane_u64(acc3_high, 0) + vget_lane_u64(acc3_low, 0));
 }
 
+// Adds the 8 values in vec using 4 instructions (assuming instruction-level
+// parallelism
 int vredq_u16(uint16x8_t vec) {
     uint16x4_t high = vget_high_u16(vec), low = vget_low_u16(vec);
     
@@ -53,6 +58,7 @@ int vredq_u16(uint16x8_t vec) {
     return (int)(vget_lane_u64(acc2_high, 0) + vget_lane_u64(acc2_low, 0));
 }
 
+// Get the area of the histogram above clip_limit
 int get_excess(uint16_t* hist, int num_bins, int clip_limit) {
     auto vec_limit = vdupq_n_u16(clip_limit);
     
@@ -71,6 +77,10 @@ int get_excess(uint16_t* hist, int num_bins, int clip_limit) {
     
     return vredq_u8(acc);
 }
+
+// Clips the histogram, ensuring that no bin is greater than clip_limit.
+// The excess data is then evenly distributed amongst the remainder
+// of the histogram.
 
 void clip_histogram(uint16_t* hist, int num_bins, int clip_limit) {
     int num_excess = 0, incr, upper;
@@ -131,7 +141,8 @@ void clip_histogram(uint16_t* hist, int num_bins, int clip_limit) {
     }
 }
 
-void map_histogram(uint16_t* hist, int num_bins, int min, int max, size_t num_pixels) {
+// Converts hist into a CDF, effectively mapping input intensities to output intensities
+void map_histogram(uint16_t* hist, int num_bins, size_t num_pixels) {
     const int fScale = 256 / num_pixels;
     
     auto vec_scale = vdupq_n_u16(fScale);
@@ -165,6 +176,8 @@ void map_histogram(uint16_t* hist, int num_bins, int min, int max, size_t num_pi
     }
 }
 
+// For a given tile and three surrounding it, interpolate the tiles' histograms
+// to obtain a final intensity value for each pixel in the tile
 void interpolate(cv::Mat in, uint16_t* histLU, uint16_t* histRU, uint16_t* histLB, uint16_t* histRB, int tile_size, int start_x, int start_y, cv::Mat out, uint8_t rshift, uint8_t log) {
     
     int xCoef, xInvCoef, yCoef, yInvCoef;
@@ -185,8 +198,19 @@ void interpolate(cv::Mat in, uint16_t* histLU, uint16_t* histRU, uint16_t* histL
     
 }
 
+// Performs CLAHE on the input image using GCD and NEON.
+//
+// tile_size should be between 4 and 16, usually 8.
+//
+// clip_limit affects how much brighter a pixel can get (a high clip_limit will
+// reduce the total contrast of the image because dark pixels will be transformed
+// into almost-white pixels).
+//
+// num_bins should be a power of 2 that is at most 256. It is the size of each
+// histogram. To improve performance but reduce quality, shrink num_bins to 128 or 64.
+// Anything below 64 is largely unusable.
 
-cv::Mat clahe_neon(cv::Mat in, cv::Mat mirrored, int tile_size, int cl, int num_bins) {
+cv::Mat clahe_neon(cv::Mat in, int tile_size, int clip_limit, int num_bins) {
     if (in.channels() != 1) {
         printf("must be grayscale\n");
         return in;
@@ -202,22 +226,20 @@ cv::Mat clahe_neon(cv::Mat in, cv::Mat mirrored, int tile_size, int cl, int num_
         return in;
     }
     
+    cv::Mat out(in.rows, in.cols, in.type());
+
+    int nrX = in.cols / tile_size, nrY = in.rows / tile_size;
     int rshift = 0, tmp = 512;
     while ((tmp>>=1) != num_bins) rshift++;
     
-    cv::Mat out(in.rows, in.cols, in.type());
-    
-//    int clip_limit = (int) (cl * tile_size * tile_size / num_bins);
-//    if (clip_limit < 1) clip_limit = 1;
-
-    int clip_limit = cl;
-    
-    int nrX = in.cols / tile_size, nrY = in.rows / tile_size;
+    int norm = tile_size * tile_size;
+    int log = 0;
+    while (norm>>=1) log++;
     
     uint16_t* hists = (uint16_t*)calloc(num_bins*nrX * nrY, sizeof(uint16_t));
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
-    // Parallelize by tiles to avoid cache thrashing
+    // Each thread handles a single row of tiles to avoid cache thrashing
     dispatch_apply(nrY, queue, ^(size_t tileY) {
         for (int i = 0; i < tile_size; i++) {
             make_histograms(hists, in, rshift, tile_size * tileY + i, tile_size, num_bins);
@@ -228,20 +250,10 @@ cv::Mat clahe_neon(cv::Mat in, cv::Mat mirrored, int tile_size, int cl, int num_
         auto hist = hists + num_bins*(tile);
         
         clip_histogram(hist, num_bins, clip_limit);
-        map_histogram(hist, num_bins, 0, 255, tile_size * tile_size);
+        map_histogram(hist, num_bins, tile_size * tile_size);
     });
     
-    //    for (int tile = 0; tile < nrY*nrX; tile++) {
-    //        auto hist = hists + num_bins*(tile);
-    //
-    //        clip_histogram(hist, num_bins, clip_limit);
-    //        map_histogram(hist, num_bins, 0, 255, tile_size * tile_size);
-    //    };
-    
-    int norm = tile_size * tile_size;
-    int log = 0;
-    while (norm>>=1) log++;
-    
+    // Interpolate, parallelizing across tiles.
     dispatch_apply((nrY+1)*(nrX+1), queue, ^(size_t num) {
         int tileX = num%(nrX+1), tileY = num/(nrX+1), startX = 0, startY = 0;
         int tileYU, tileYB, tileXL, tileXR;

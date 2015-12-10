@@ -137,10 +137,7 @@ static double machTimeToSecs(uint64_t time)
         
 //        cv::fastNlMeansDenoising(gray, gray);
 
-        
-        cv::Mat mirrored;
-        cv::copyMakeBorder(gray, mirrored, tile_size/2, tile_size/2, tile_size/2, tile_size/2, cv::BORDER_REFLECT);
-        clahe = clahe_neon(gray, mirrored, tile_size, 2, 256);
+        clahe = clahe_neon(gray, tile_size, 2, 256);
 //        clahe = clahe_interp(gray, mirrored, tile_size, 4.0);
 //        clahe = clahe_naive(gray, tile_size, 4.0);
         
