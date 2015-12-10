@@ -1,0 +1,588 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1FA92ABB1C17A65500C2E533 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1FA92ABA1C17A65500C2E533 /* test.jpg */; };
+		1FA92ABD1C17ADC600C2E533 /* clahe_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1FA92ABC1C17ADC600C2E533 /* clahe_1.jpg */; };
+		1FA92ABF1C18A3AA00C2E533 /* 720.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1FA92ABE1C18A3AA00C2E533 /* 720.jpg */; };
+		1FA92AC11C18B15C00C2E533 /* clahe_neon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FA92AC01C18B15C00C2E533 /* clahe_neon.cpp */; };
+		1FA92AC31C1923FF00C2E533 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA92AC21C1923FF00C2E533 /* AVFoundation.framework */; };
+		1FA92AC51C19241E00C2E533 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA92AC41C19241E00C2E533 /* CoreMedia.framework */; };
+		1FA92AC71C19242400C2E533 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA92AC61C19242400C2E533 /* AssetsLibrary.framework */; };
+		1FC7CFDB1BCF54E3002117E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7CFDA1BCF54E3002117E0 /* main.m */; };
+		1FC7CFDE1BCF54E3002117E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7CFDD1BCF54E3002117E0 /* AppDelegate.m */; };
+		1FC7CFE11BCF54E3002117E0 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7CFE01BCF54E3002117E0 /* ViewController.mm */; };
+		1FC7CFE41BCF54E3002117E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FC7CFE21BCF54E3002117E0 /* Main.storyboard */; };
+		1FC7CFE61BCF54E3002117E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FC7CFE51BCF54E3002117E0 /* Assets.xcassets */; };
+		1FC7CFE91BCF54E3002117E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FC7CFE71BCF54E3002117E0 /* LaunchScreen.storyboard */; };
+		1FC7CFF41BCF54E4002117E0 /* Canny_EdgeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7CFF31BCF54E4002117E0 /* Canny_EdgeTests.m */; };
+		1FC7CFFF1BCF54E4002117E0 /* Canny_EdgeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC7CFFE1BCF54E4002117E0 /* Canny_EdgeUITests.m */; };
+		1FC7D00D1BCF552F002117E0 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC7D00C1BCF552F002117E0 /* opencv2.framework */; };
+		1FC7D00F1BCF56E9002117E0 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC7D00E1BCF56E9002117E0 /* Accelerate.framework */; };
+		1FC7D0111BCF5746002117E0 /* prince_book.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1FC7D0101BCF5746002117E0 /* prince_book.jpg */; };
+		1FDCDEC61C1748D700D5D624 /* clahe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FDCDEC41C1748D700D5D624 /* clahe.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1FC7CFF01BCF54E4002117E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC7CFCE1BCF54E3002117E0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FC7CFD51BCF54E3002117E0;
+			remoteInfo = Canny_Edge;
+		};
+		1FC7CFFB1BCF54E4002117E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC7CFCE1BCF54E3002117E0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FC7CFD51BCF54E3002117E0;
+			remoteInfo = Canny_Edge;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1FA92ABA1C17A65500C2E533 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test.jpg; sourceTree = "<group>"; };
+		1FA92ABC1C17ADC600C2E533 /* clahe_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = clahe_1.jpg; sourceTree = "<group>"; };
+		1FA92ABE1C18A3AA00C2E533 /* 720.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 720.jpg; sourceTree = "<group>"; };
+		1FA92AC01C18B15C00C2E533 /* clahe_neon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = clahe_neon.cpp; sourceTree = "<group>"; };
+		1FA92AC21C1923FF00C2E533 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		1FA92AC41C19241E00C2E533 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		1FA92AC61C19242400C2E533 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		1FC7CFD61BCF54E3002117E0 /* Canny_Edge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canny_Edge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FC7CFDA1BCF54E3002117E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1FC7CFDC1BCF54E3002117E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1FC7CFDD1BCF54E3002117E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1FC7CFDF1BCF54E3002117E0 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1FC7CFE01BCF54E3002117E0 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		1FC7CFE31BCF54E3002117E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1FC7CFE51BCF54E3002117E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1FC7CFE81BCF54E3002117E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1FC7CFEA1BCF54E3002117E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1FC7CFEF1BCF54E4002117E0 /* Canny_EdgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Canny_EdgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FC7CFF31BCF54E4002117E0 /* Canny_EdgeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Canny_EdgeTests.m; sourceTree = "<group>"; };
+		1FC7CFF51BCF54E4002117E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1FC7CFFA1BCF54E4002117E0 /* Canny_EdgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Canny_EdgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FC7CFFE1BCF54E4002117E0 /* Canny_EdgeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Canny_EdgeUITests.m; sourceTree = "<group>"; };
+		1FC7D0001BCF54E4002117E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1FC7D00C1BCF552F002117E0 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		1FC7D00E1BCF56E9002117E0 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		1FC7D0101BCF5746002117E0 /* prince_book.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = prince_book.jpg; sourceTree = "<group>"; };
+		1FDCDEC41C1748D700D5D624 /* clahe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = clahe.cpp; sourceTree = "<group>"; };
+		1FDCDEC51C1748D700D5D624 /* clahe.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = clahe.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1FC7CFD31BCF54E3002117E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FA92AC71C19242400C2E533 /* AssetsLibrary.framework in Frameworks */,
+				1FA92AC51C19241E00C2E533 /* CoreMedia.framework in Frameworks */,
+				1FA92AC31C1923FF00C2E533 /* AVFoundation.framework in Frameworks */,
+				1FC7D00F1BCF56E9002117E0 /* Accelerate.framework in Frameworks */,
+				1FC7D00D1BCF552F002117E0 /* opencv2.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FC7CFEC1BCF54E4002117E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FC7CFF71BCF54E4002117E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1FC7CFCD1BCF54E3002117E0 = {
+			isa = PBXGroup;
+			children = (
+				1FA92AC61C19242400C2E533 /* AssetsLibrary.framework */,
+				1FA92AC41C19241E00C2E533 /* CoreMedia.framework */,
+				1FA92AC21C1923FF00C2E533 /* AVFoundation.framework */,
+				1FC7D00E1BCF56E9002117E0 /* Accelerate.framework */,
+				1FC7D00C1BCF552F002117E0 /* opencv2.framework */,
+				1FC7CFD81BCF54E3002117E0 /* AR-Low-Light */,
+				1FC7CFF21BCF54E4002117E0 /* AR-Low-LightTests */,
+				1FC7CFFD1BCF54E4002117E0 /* AR-Low-LightUITests */,
+				1FC7CFD71BCF54E3002117E0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1FC7CFD71BCF54E3002117E0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1FC7CFD61BCF54E3002117E0 /* Canny_Edge.app */,
+				1FC7CFEF1BCF54E4002117E0 /* Canny_EdgeTests.xctest */,
+				1FC7CFFA1BCF54E4002117E0 /* Canny_EdgeUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1FC7CFD81BCF54E3002117E0 /* AR-Low-Light */ = {
+			isa = PBXGroup;
+			children = (
+				1FC7CFDC1BCF54E3002117E0 /* AppDelegate.h */,
+				1FC7CFDD1BCF54E3002117E0 /* AppDelegate.m */,
+				1FC7CFDF1BCF54E3002117E0 /* ViewController.h */,
+				1FC7CFE01BCF54E3002117E0 /* ViewController.mm */,
+				1FC7CFE21BCF54E3002117E0 /* Main.storyboard */,
+				1FC7CFE51BCF54E3002117E0 /* Assets.xcassets */,
+				1FC7CFE71BCF54E3002117E0 /* LaunchScreen.storyboard */,
+				1FC7CFEA1BCF54E3002117E0 /* Info.plist */,
+				1FC7CFD91BCF54E3002117E0 /* Supporting Files */,
+				1FDCDEC41C1748D700D5D624 /* clahe.cpp */,
+				1FA92AC01C18B15C00C2E533 /* clahe_neon.cpp */,
+				1FDCDEC51C1748D700D5D624 /* clahe.hpp */,
+			);
+			path = "AR-Low-Light";
+			sourceTree = "<group>";
+		};
+		1FC7CFD91BCF54E3002117E0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1FA92ABE1C18A3AA00C2E533 /* 720.jpg */,
+				1FA92ABC1C17ADC600C2E533 /* clahe_1.jpg */,
+				1FA92ABA1C17A65500C2E533 /* test.jpg */,
+				1FC7D0101BCF5746002117E0 /* prince_book.jpg */,
+				1FC7CFDA1BCF54E3002117E0 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1FC7CFF21BCF54E4002117E0 /* AR-Low-LightTests */ = {
+			isa = PBXGroup;
+			children = (
+				1FC7CFF31BCF54E4002117E0 /* Canny_EdgeTests.m */,
+				1FC7CFF51BCF54E4002117E0 /* Info.plist */,
+			);
+			path = "AR-Low-LightTests";
+			sourceTree = "<group>";
+		};
+		1FC7CFFD1BCF54E4002117E0 /* AR-Low-LightUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1FC7CFFE1BCF54E4002117E0 /* Canny_EdgeUITests.m */,
+				1FC7D0001BCF54E4002117E0 /* Info.plist */,
+			);
+			name = "AR-Low-LightUITests";
+			path = "AR-Low-Light-UITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1FC7CFD51BCF54E3002117E0 /* AR-Low-Light */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FC7D0031BCF54E4002117E0 /* Build configuration list for PBXNativeTarget "AR-Low-Light" */;
+			buildPhases = (
+				1FC7CFD21BCF54E3002117E0 /* Sources */,
+				1FC7CFD31BCF54E3002117E0 /* Frameworks */,
+				1FC7CFD41BCF54E3002117E0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AR-Low-Light";
+			productName = Canny_Edge;
+			productReference = 1FC7CFD61BCF54E3002117E0 /* Canny_Edge.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1FC7CFEE1BCF54E4002117E0 /* AR-Low-LightTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FC7D0061BCF54E4002117E0 /* Build configuration list for PBXNativeTarget "AR-Low-LightTests" */;
+			buildPhases = (
+				1FC7CFEB1BCF54E4002117E0 /* Sources */,
+				1FC7CFEC1BCF54E4002117E0 /* Frameworks */,
+				1FC7CFED1BCF54E4002117E0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1FC7CFF11BCF54E4002117E0 /* PBXTargetDependency */,
+			);
+			name = "AR-Low-LightTests";
+			productName = Canny_EdgeTests;
+			productReference = 1FC7CFEF1BCF54E4002117E0 /* Canny_EdgeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1FC7CFF91BCF54E4002117E0 /* AR-Low-LightUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FC7D0091BCF54E4002117E0 /* Build configuration list for PBXNativeTarget "AR-Low-LightUITests" */;
+			buildPhases = (
+				1FC7CFF61BCF54E4002117E0 /* Sources */,
+				1FC7CFF71BCF54E4002117E0 /* Frameworks */,
+				1FC7CFF81BCF54E4002117E0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1FC7CFFC1BCF54E4002117E0 /* PBXTargetDependency */,
+			);
+			name = "AR-Low-LightUITests";
+			productName = Canny_EdgeUITests;
+			productReference = 1FC7CFFA1BCF54E4002117E0 /* Canny_EdgeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1FC7CFCE1BCF54E3002117E0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Jeff Chen";
+				TargetAttributes = {
+					1FC7CFD51BCF54E3002117E0 = {
+						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = F5BP2UYMZC;
+					};
+					1FC7CFEE1BCF54E4002117E0 = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = 1FC7CFD51BCF54E3002117E0;
+					};
+					1FC7CFF91BCF54E4002117E0 = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = 1FC7CFD51BCF54E3002117E0;
+					};
+				};
+			};
+			buildConfigurationList = 1FC7CFD11BCF54E3002117E0 /* Build configuration list for PBXProject "AR-Low-Light" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1FC7CFCD1BCF54E3002117E0;
+			productRefGroup = 1FC7CFD71BCF54E3002117E0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1FC7CFD51BCF54E3002117E0 /* AR-Low-Light */,
+				1FC7CFEE1BCF54E4002117E0 /* AR-Low-LightTests */,
+				1FC7CFF91BCF54E4002117E0 /* AR-Low-LightUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1FC7CFD41BCF54E3002117E0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FC7CFE91BCF54E3002117E0 /* LaunchScreen.storyboard in Resources */,
+				1FA92ABF1C18A3AA00C2E533 /* 720.jpg in Resources */,
+				1FA92ABB1C17A65500C2E533 /* test.jpg in Resources */,
+				1FC7D0111BCF5746002117E0 /* prince_book.jpg in Resources */,
+				1FC7CFE61BCF54E3002117E0 /* Assets.xcassets in Resources */,
+				1FC7CFE41BCF54E3002117E0 /* Main.storyboard in Resources */,
+				1FA92ABD1C17ADC600C2E533 /* clahe_1.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FC7CFED1BCF54E4002117E0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FC7CFF81BCF54E4002117E0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1FC7CFD21BCF54E3002117E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FC7CFE11BCF54E3002117E0 /* ViewController.mm in Sources */,
+				1FC7CFDE1BCF54E3002117E0 /* AppDelegate.m in Sources */,
+				1FA92AC11C18B15C00C2E533 /* clahe_neon.cpp in Sources */,
+				1FC7CFDB1BCF54E3002117E0 /* main.m in Sources */,
+				1FDCDEC61C1748D700D5D624 /* clahe.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FC7CFEB1BCF54E4002117E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FC7CFF41BCF54E4002117E0 /* Canny_EdgeTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FC7CFF61BCF54E4002117E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FC7CFFF1BCF54E4002117E0 /* Canny_EdgeUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1FC7CFF11BCF54E4002117E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1FC7CFD51BCF54E3002117E0 /* AR-Low-Light */;
+			targetProxy = 1FC7CFF01BCF54E4002117E0 /* PBXContainerItemProxy */;
+		};
+		1FC7CFFC1BCF54E4002117E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1FC7CFD51BCF54E3002117E0 /* AR-Low-Light */;
+			targetProxy = 1FC7CFFB1BCF54E4002117E0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1FC7CFE21BCF54E3002117E0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FC7CFE31BCF54E3002117E0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1FC7CFE71BCF54E3002117E0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FC7CFE81BCF54E3002117E0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1FC7D0011BCF54E4002117E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1FC7D0021BCF54E4002117E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1FC7D0041BCF54E4002117E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/AR-Low-Light/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU.16423.AR-Low-Light";
+				PRODUCT_NAME = "AR-Low-Light";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		1FC7D0051BCF54E4002117E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/AR-Low-Light/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU.16423.AR-Low-Light";
+				PRODUCT_NAME = "AR-Low-Light";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		1FC7D0071BCF54E4002117E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Canny_EdgeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU.Canny-EdgeTests";
+				PRODUCT_NAME = "AR-Low-Light";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AR-Low-Light.app/AR-Low-Light";
+			};
+			name = Debug;
+		};
+		1FC7D0081BCF54E4002117E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Canny_EdgeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU.Canny-EdgeTests";
+				PRODUCT_NAME = "AR-Low-Light";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AR-Low-Light.app/AR-Low-Light";
+			};
+			name = Release;
+		};
+		1FC7D00A1BCF54E4002117E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Canny_EdgeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU.Canny-EdgeUITests";
+				PRODUCT_NAME = "AR-Low-Light";
+				TEST_TARGET_NAME = Canny_Edge;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		1FC7D00B1BCF54E4002117E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Canny_EdgeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU.Canny-EdgeUITests";
+				PRODUCT_NAME = "AR-Low-Light";
+				TEST_TARGET_NAME = Canny_Edge;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1FC7CFD11BCF54E3002117E0 /* Build configuration list for PBXProject "AR-Low-Light" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FC7D0011BCF54E4002117E0 /* Debug */,
+				1FC7D0021BCF54E4002117E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1FC7D0031BCF54E4002117E0 /* Build configuration list for PBXNativeTarget "AR-Low-Light" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FC7D0041BCF54E4002117E0 /* Debug */,
+				1FC7D0051BCF54E4002117E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1FC7D0061BCF54E4002117E0 /* Build configuration list for PBXNativeTarget "AR-Low-LightTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FC7D0071BCF54E4002117E0 /* Debug */,
+				1FC7D0081BCF54E4002117E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1FC7D0091BCF54E4002117E0 /* Build configuration list for PBXNativeTarget "AR-Low-LightUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FC7D00A1BCF54E4002117E0 /* Debug */,
+				1FC7D00B1BCF54E4002117E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1FC7CFCE1BCF54E3002117E0 /* Project object */;
+}

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "538A488FE50D579A55E78C4E6989FAEA8AA1F090",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "538A488FE50D579A55E78C4E6989FAEA8AA1F090" : 0,
+    "9330FA7703E2C70E09AA0C94663B120D8A445DD0" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "37919C6D-B6AF-4165-BC42-2D54925DB600",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "538A488FE50D579A55E78C4E6989FAEA8AA1F090" : "Canny_Edge\/",
+    "9330FA7703E2C70E09AA0C94663B120D8A445DD0" : "..\/.."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "AR-Low-Light",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "AR-Low-Light.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/iambald\/16423-final",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "538A488FE50D579A55E78C4E6989FAEA8AA1F090"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/iambald\/school.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9330FA7703E2C70E09AA0C94663B120D8A445DD0"
+    }
+  ]
+}
