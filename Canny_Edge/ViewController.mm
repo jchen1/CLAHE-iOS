@@ -11,6 +11,7 @@
 #ifdef __cplusplus
 #include <opencv2/opencv.hpp> // Includes the opencv library
 #include <stdlib.h> // Include the standard library
+#include "opencv2/nonfree/nonfree.hpp"
 
 #include "clahe.hpp"
 
@@ -44,7 +45,8 @@ using namespace std;
     AVCaptureSessionPreset1280x720;
     videoCamera.defaultAVCaptureVideoOrientation =
     AVCaptureVideoOrientationPortrait;
-    videoCamera.defaultFPS = 30;
+//    AVCaptureVideoOrientationLandscape;
+    videoCamera.defaultFPS = 60;
     
     // Read in the image
 //    UIImage *image = [UIImage imageNamed:@"720.jpg"];
@@ -97,7 +99,9 @@ using namespace std;
     
     
     // Finally setup the view to display
-    [videoCamera start];
+    isCLAHE = YES;
+    isCapturing = YES;
+//    [videoCamera start];
 //    imageView.image = [self UIImageFromCVMat:display_im];
 }
 
@@ -118,22 +122,32 @@ static double machTimeToSecs(uint64_t time)
     if (isNeedRotation)
         inputFrame = image.t();
     
-    // Apply filter
-    cv::Mat gray; cv::cvtColor(image, gray, CV_RGBA2GRAY); // Convert to grayscale
-//    cv::Mat display_im; cv::cvtColor(gray,display_im,CV_GRAY2BGR); // Get the display image
+    cv::Mat clahe;
     
-    //    cv::Mat le = clahe_naive(gray, 8, 2.0);
+    if (isCLAHE) {
+        // Apply filter
+        cv::Mat gray; cv::cvtColor(image, gray, CV_RGBA2GRAY); // Convert to grayscale
+        //    cv::Mat display_im; cv::cvtColor(gray,display_im,CV_GRAY2BGR); // Get the display image
+        
+        //    cv::Mat le = clahe_naive(gray, 8, 2.0);
+        
+        int tile_size = 8;
+        
+//        cv::GaussianBlur(gray, gray, cv::Size(5, 5), 0, 0);
+        
+//        cv::fastNlMeansDenoising(gray, gray);
+
+        
+        cv::Mat mirrored;
+        cv::copyMakeBorder(gray, mirrored, tile_size/2, tile_size/2, tile_size/2, tile_size/2, cv::BORDER_REFLECT);
+        clahe = clahe_neon(gray, mirrored, tile_size, 8.0, 256);
+        
+    }
     
-    int num_imgs = 50;
+    else {
+        cv::cvtColor(image, clahe, CV_RGBA2GRAY);
+    }
     
-    int tile_size = 8;
-    
-    cv::Mat mirrored;
-    cv::copyMakeBorder(gray, mirrored, tile_size/2, tile_size/2, tile_size/2, tile_size/2, cv::BORDER_REFLECT);
-    cv::Mat clahe = clahe_neon(gray, mirrored, tile_size, 5.0, 256);
-    
-    if (isNeedRotation)
-        clahe = clahe.t();
     
     // Add fps label to the frame
     uint64_t currTime = mach_absolute_time();
@@ -143,10 +157,52 @@ static double machTimeToSecs(uint64_t time)
     NSString* fpsString =
     [NSString stringWithFormat:@"FPS = %3.2f", fps];
     cv::putText(clahe, [fpsString UTF8String],
-                cv::Point(30, 30), cv::FONT_HERSHEY_COMPLEX_SMALL,
-                0.8, cv::Scalar::all(255));
+                cv::Point(30, 70), cv::FONT_HERSHEY_COMPLEX_SMALL,
+                1.5, cv::Scalar::all(255));
+    
+//    cv::SurfFeatureDetector detector( 600 );
+//    std::vector<cv::KeyPoint> keypoints_1;
+//    
+//    detector.detect( clahe, keypoints_1 );
+//    
+//    //-- Draw keypoints
+//    drawKeypoints( clahe, keypoints_1, clahe, cv::Scalar::all(-1), cv::DrawMatchesFlags::DEFAULT );
     
     clahe.copyTo(image);
+}
+
+-(IBAction)startCaptureButtonPressed:(id)sender
+{
+    [videoCamera start];
+    isCapturing = YES;
+}
+
+-(IBAction)stopCaptureButtonPressed:(id)sender
+{
+    [videoCamera stop];
+    isCapturing = NO;
+    
+//    NSString* relativePath = [videoCamera.videoFileURL relativePath];
+//    UISaveVideoAtPathToSavedPhotosAlbum(relativePath, nil, NULL, NULL);
+//    
+//    //Alert window
+//    UIAlertView *alert = [UIAlertView alloc];
+//    alert = [alert initWithTitle:@"Status"
+//                         message:@"Saved to the Gallery!"
+//                        delegate:nil
+//               cancelButtonTitle:@"Continue"
+//               otherButtonTitles:nil];
+//    [alert show];
+}
+
+-(IBAction)startCLAHEButtonPressed:(id)sender
+{
+    isCLAHE = YES;
+}
+
+-(IBAction)stopCLAHEButtonPressed:(id)sender
+{
+    isCLAHE = NO;
 }
 
 - (void)didReceiveMemoryWarning {

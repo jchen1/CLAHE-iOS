@@ -14,9 +14,9 @@
 #include <vector>
 #include <arm_neon.h>
 
-void make_histograms(uint8_t* hists, cv::Mat in, uint8_t rshift, int row, int tile_size, int num_bins) {
+void make_histograms(uint16_t* hists, cv::Mat in, uint8_t rshift, int row, int tile_size, int num_bins) {
     int tile = ((row / tile_size)*(in.cols / tile_size)) - 1;
-
+    
     auto in_row = in.ptr<uint8_t>(row);
     for (int col = 0; col < in.cols; col++) {
         if (col % tile_size == 0) tile++;
@@ -41,26 +41,38 @@ int vredq_u8(uint8x16_t vec) {
     return (int)(vget_lane_u64(acc3_high, 0) + vget_lane_u64(acc3_low, 0));
 }
 
-int get_excess(uint8_t* hist, int num_bins, int clip_limit) {
-    uint8x16_t vec_limit = vdupq_n_u8(clip_limit);
+int vredq_u16(uint16x8_t vec) {
+    uint16x4_t high = vget_high_u16(vec), low = vget_low_u16(vec);
     
-    uint8x16_t acc = vdupq_n_u8(0);
+    uint32x2_t acc1_high = vpaddl_u16(high);
+    uint32x2_t acc1_low = vpaddl_u16(low);
     
-    for (int i = 0; i < num_bins; i += 16) {
-        uint8x16_t x = vld1q_u8(hist + i);
-        uint8x16_t mask = vcgtq_u8(x, vec_limit);
+    uint64x1_t acc2_high = vpaddl_u16(acc1_high);
+    uint64x1_t acc2_low = vpaddl_u16(acc1_low);
+    
+    return (int)(vget_lane_u64(acc2_high, 0) + vget_lane_u64(acc2_low, 0));
+}
+
+int get_excess(uint16_t* hist, int num_bins, int clip_limit) {
+    auto vec_limit = vdupq_n_u16(clip_limit);
+    
+    auto acc = vdupq_n_u16(0);
+    
+    for (int i = 0; i < num_bins; i += 8) {
+        auto x = vld1q_u16(hist + i);
+        auto mask = vcgtq_u16(x, vec_limit);
         
-        uint8x16_t x_masked = vandq_u8(x, mask);
-        uint8x16_t clip_masked = vandq_u8(vec_limit, mask);
+        auto x_masked = vandq_u16(x, mask);
+        auto clip_masked = vandq_u16(vec_limit, mask);
         
-        uint8x16_t excess_vec = vsubq_u8(x_masked, clip_masked);
+        auto excess_vec = vsubq_u16(x_masked, clip_masked);
         acc = vaddq_u16(acc, excess_vec);
     }
     
     return vredq_u8(acc);
 }
 
-void clip_histogram(uint8_t* hist, int num_bins, int clip_limit) {
+void clip_histogram(uint16_t* hist, int num_bins, int clip_limit) {
     int num_excess = 0, incr, upper;
     
     num_excess = get_excess(hist, num_bins, clip_limit);
@@ -68,42 +80,42 @@ void clip_histogram(uint8_t* hist, int num_bins, int clip_limit) {
     incr = num_excess / num_bins;
     upper = clip_limit - incr;
     
-    uint8x16_t vec_limit = vdupq_n_u8(clip_limit);
-    uint8x16_t vec_upper = vdupq_n_u8(upper);
-    uint8x16_t vec_incr = vdupq_n_u8(incr);
+    auto vec_limit = vdupq_n_u16(clip_limit);
+    auto vec_upper = vdupq_n_u16(upper);
+    auto vec_incr = vdupq_n_u16(incr);
     
-    for (int i = 0; i < num_bins; i += 16) {
-        uint8x16_t x = vld1q_u8(hist + i);
+    for (int i = 0; i < num_bins; i += 8) {
+        auto x = vld1q_u16(hist + i);
         
         // x_masked holds vals > upper and < clip_limit
-        uint8x16_t mask_limit = vcltq_u8(x, vec_limit);
-        uint8x16_t x_masked = vandq_u8(x, mask_limit);
+        auto mask_limit = vcltq_u16(x, vec_limit);
+        auto x_masked = vandq_u16(x, mask_limit);
         
-        uint8x16_t mask_upper = vcgtq_u8(x_masked, vec_upper);
-        x_masked = vandq_u8(x_masked, mask_upper);
+        auto mask_upper = vcgtq_u16(x_masked, vec_upper);
+        x_masked = vandq_u16(x_masked, mask_upper);
         
-        uint8x16_t upper_masked = vandq_u8(vec_upper, mask_upper);
+        auto upper_masked = vandq_u16(vec_upper, mask_upper);
         
         // num_excess -= hist[i] - upper;
-        num_excess -= vredq_u8(vsubq_u8(x_masked, upper_masked));
+        num_excess -= vredq_u16(vsubq_u16(x_masked, upper_masked));
         
         // now x_masked is all elements <= upper
-        mask_upper = vcleq_u8(x, vec_upper);
-        x_masked = vandq_u8(x, mask_upper);
+        mask_upper = vcleq_u16(x, vec_upper);
+        x_masked = vandq_u16(x, mask_upper);
         
         // num_excess -= incr for each hist[i] <= upper
-        uint8x16_t incr_masked = vandq_u8(vec_incr, mask_upper);
-        num_excess -= vredq_u8(incr_masked);
+        auto incr_masked = vandq_u16(vec_incr, mask_upper);
+        num_excess -= vredq_u16(incr_masked);
         
         // set hist[i] = min(hist[i] + incr, limit)
-        x = vaddq_u8(x, vec_incr);
-        x = vminq_u8(x, vec_limit);
+        x = vaddq_u16(x, vec_incr);
+        x = vminq_u16(x, vec_limit);
         
-        vst1q_u8(hist + i, x);
+        vst1q_u16(hist + i, x);
     }
     
     while (num_excess) {
-        uint8_t* end = hist + num_bins, *cur = hist;
+        uint16_t* end = hist + num_bins, *cur = hist;
         
         while (num_excess && cur < end) {
             int step_size = num_bins / num_excess;
@@ -119,41 +131,41 @@ void clip_histogram(uint8_t* hist, int num_bins, int clip_limit) {
     }
 }
 
-void map_histogram(uint8_t* hist, int num_bins, int min, int max, size_t num_pixels) {
+void map_histogram(uint16_t* hist, int num_bins, int min, int max, size_t num_pixels) {
     const int fScale = 256 / num_pixels;
     
-    uint8x16_t vec_scale = vdupq_n_u8(fScale);
-    uint8x16_t vec_zero = vdupq_n_u8(0);
+    auto vec_scale = vdupq_n_u16(fScale);
+    auto vec_zero = vdupq_n_u16(0);
     
     // this is parallelizable, but the parent function is already being parallelized
-    for (int i = 0; i < num_bins; i += 16) {
+    for (int i = 0; i < num_bins; i += 8) {
         
-        uint8x16_t x = vld1q_u8(hist + i);
+        auto x = vld1q_u16(hist + i);
         
-        x = vaddq_u8(x, vextq_u8(vec_zero, x, 15));
-        x = vaddq_u8(x, vextq_u8(vec_zero, x, 14));
-        x = vaddq_u8(x, vextq_u8(vec_zero, x, 12));
-        x = vaddq_u8(x, vextq_u8(vec_zero, x, 8));
+        x = vaddq_u16(x, vextq_u16(vec_zero, x, 7));
+        x = vaddq_u16(x, vextq_u16(vec_zero, x, 6));
+        x = vaddq_u16(x, vextq_u16(vec_zero, x, 4));
         
-        vst1q_u8(hist + i, x);
+        vst1q_u16(hist + i, x);
     }
     
     
-    uint8x16_t x = vld1q_u8(hist);
-    uint8x16_t add = vdupq_n_u8(vgetq_lane_u8(x, 15));
+    auto x = vld1q_u16(hist);
+    auto max_vec = vdupq_n_u16(255);
+    auto add = vdupq_n_u16(vgetq_lane_u16(x, 7));
     
-    vst1q_u8(hist, vmulq_u8(x, vec_scale));
+    vst1q_u16(hist, vminq_u16(vmulq_u16(x, vec_scale), max_vec));
     
-    for (int i = 16; i < num_bins; i += 16) {
-        x = vld1q_u8(hist + i);
-        x = vaddq_u8(x, add);
-        add = vdupq_n_u8(vgetq_lane_u8(x, 15));
+    for (int i = 8; i < num_bins; i += 8) {
+        x = vld1q_u16(hist + i);
+        x = vaddq_u16(x, add);
+        add = vdupq_n_u16(vgetq_lane_u16(x, 7));
         
-        vst1q_u8(hist + i, vmulq_u8(x, vec_scale));
+        vst1q_u16(hist + i, vminq_u16(vmulq_u16(x, vec_scale), max_vec));
     }
 }
 
-void interpolate(cv::Mat in, uint8_t* histLU, uint8_t* histRU, uint8_t* histLB, uint8_t* histRB, int tile_size, int start_x, int start_y, cv::Mat out, uint8_t rshift, uint8_t log) {
+void interpolate(cv::Mat in, uint16_t* histLU, uint16_t* histRU, uint16_t* histLB, uint16_t* histRB, int tile_size, int start_x, int start_y, cv::Mat out, uint8_t rshift, uint8_t log) {
     
     int xCoef, xInvCoef, yCoef, yInvCoef;
     
@@ -200,7 +212,7 @@ cv::Mat clahe_neon(cv::Mat in, cv::Mat mirrored, int tile_size, float cl, int nu
     
     int nrX = in.cols / tile_size, nrY = in.rows / tile_size;
     
-    uint8_t* hists = (uint8_t*)calloc(num_bins*nrX * nrY, sizeof(uint8_t));
+    uint16_t* hists = (uint16_t*)calloc(num_bins*nrX * nrY, sizeof(uint16_t));
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
     // Parallelize by tiles to avoid cache thrashing
@@ -217,12 +229,12 @@ cv::Mat clahe_neon(cv::Mat in, cv::Mat mirrored, int tile_size, float cl, int nu
         map_histogram(hist, num_bins, 0, 255, tile_size * tile_size);
     });
     
-//    for (int tile = 0; tile < nrY*nrX; tile++) {
-//        auto hist = hists + num_bins*(tile);
-//        
-//        clip_histogram(hist, num_bins, clip_limit);
-//        map_histogram(hist, num_bins, 0, 255, tile_size * tile_size);
-//    };
+    //    for (int tile = 0; tile < nrY*nrX; tile++) {
+    //        auto hist = hists + num_bins*(tile);
+    //
+    //        clip_histogram(hist, num_bins, clip_limit);
+    //        map_histogram(hist, num_bins, 0, 255, tile_size * tile_size);
+    //    };
     
     int norm = tile_size * tile_size;
     int log = 0;
@@ -232,7 +244,7 @@ cv::Mat clahe_neon(cv::Mat in, cv::Mat mirrored, int tile_size, float cl, int nu
         int tileX = num%(nrX+1), tileY = num/(nrX+1), startX = 0, startY = 0;
         int tileYU, tileYB, tileXL, tileXR;
         
-        uint8_t *histLU, *histRU, *histLB, *histRB;
+        uint16_t *histLU, *histRU, *histLB, *histRB;
         
         tileYU = tileY > 0 ? tileY - 1 : 0;
         tileYB = tileY == nrY ? tileY - 1 : tileY;
@@ -248,7 +260,7 @@ cv::Mat clahe_neon(cv::Mat in, cv::Mat mirrored, int tile_size, float cl, int nu
         histRU = hists + (num_bins * (tileYU * nrX + tileXR));
         histLB = hists + (num_bins * (tileYB * nrX + tileXL));
         histRB = hists + (num_bins * (tileYB * nrX + tileXR));
-    
+        
         interpolate(in, histLU, histRU, histLB, histRB, tile_size, startX, startY, out, rshift, log);
     });
     

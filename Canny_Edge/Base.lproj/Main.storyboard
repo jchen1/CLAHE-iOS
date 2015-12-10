@@ -13,22 +13,60 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fCA-Id-TaS">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="579"/>
                             </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pia-zd-U9J">
+                                <rect key="frame" x="0.0" y="623" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="Start capture" id="raB-TV-Gtn">
+                                        <connections>
+                                            <action selector="startCaptureButtonPressed:" destination="BYZ-38-t0r" id="FTj-Ul-mBp"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Stop capture" id="kl3-EG-RMJ">
+                                        <connections>
+                                            <action selector="stopCaptureButtonPressed:" destination="BYZ-38-t0r" id="rs9-cZ-D3m"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bm9-vt-wzu">
+                                <rect key="frame" x="0.0" y="579" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="Start CLAHE" id="hMx-YF-dYe">
+                                        <connections>
+                                            <action selector="startCLAHEButtonPressed:" destination="BYZ-38-t0r" id="3xy-MW-lAC"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Stop CLAHE" id="4j3-RV-tYX">
+                                        <connections>
+                                            <action selector="stopCLAHEButtonPressed:" destination="BYZ-38-t0r" id="gyb-Om-ofd"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="camToolbar" destination="pia-zd-U9J" id="ZXs-gM-ztW"/>
+                        <outlet property="claheToolbar" destination="Bm9-vt-wzu" id="qmg-Vj-aAp"/>
                         <outlet property="imageView" destination="fCA-Id-TaS" id="Dn8-Kf-BP7"/>
+                        <outlet property="startCLAHEButton" destination="hMx-YF-dYe" id="VkL-W6-e63"/>
+                        <outlet property="startCaptureButton" destination="raB-TV-Gtn" id="udA-7Q-Ibt"/>
+                        <outlet property="stopCLAHEButton" destination="4j3-RV-tYX" id="P3K-i8-l5l"/>
+                        <outlet property="stopCaptureButton" destination="kl3-EG-RMJ" id="tn5-pX-qfj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136" y="53"/>
+            <point key="canvasLocation" x="-188.5" y="-129.5"/>
         </scene>
     </scenes>
 </document>
