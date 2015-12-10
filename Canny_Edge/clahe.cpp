@@ -10,7 +10,6 @@
 #include <math.h>
 
 #include <vector>
-#include <arm_neon.h>
 
 void make_histogram(long* hist, cv::Mat in) {
     for (int i = 0; i < in.rows; i++) {

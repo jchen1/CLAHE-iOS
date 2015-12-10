@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <opencv2/highgui/ios.h> 
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<CvVideoCameraDelegate>
+{
+    CvVideoCamera* videoCamera;
+    BOOL isCapturing;
+    uint64_t prevTime;
+}
 
+@property (nonatomic, strong) CvVideoCamera* videoCamera;
+@property (nonatomic, strong) IBOutlet UIImageView* imageView;
 
 @end
 
