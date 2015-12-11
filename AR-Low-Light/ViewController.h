@@ -14,6 +14,11 @@
     CvVideoCamera* videoCamera;
     BOOL isCapturing;
     BOOL isCLAHE;
+    bool color;
+    int tile_size;
+    int clip_limit;
+    int num_bins;
+    bool should_interpolate;
     uint64_t prevTime;
 }
 
@@ -24,20 +29,22 @@
 @property (nonatomic, strong) IBOutlet UIImageView* imageView;
 
 @property (nonatomic, weak) IBOutlet
-UIBarButtonItem* startCaptureButton;
+UIBarButtonItem* toggleCaptureButton;
 @property (nonatomic, weak) IBOutlet
-UIBarButtonItem* stopCaptureButton;
-
--(IBAction)startCaptureButtonPressed:(id)sender;
--(IBAction)stopCaptureButtonPressed:(id)sender;
-
+UIBarButtonItem* toggleCLAHEButton;
 @property (nonatomic, weak) IBOutlet
-UIBarButtonItem* startCLAHEButton;
+UIBarButtonItem* toggleColorButton;
 @property (nonatomic, weak) IBOutlet
-UIBarButtonItem* stopCLAHEButton;
+UIBarButtonItem* toggleInterpolateButton;
 
--(IBAction)startCLAHEButtonPressed:(id)sender;
--(IBAction)stopCLAHEButtonPressed:(id)sender;
+-(IBAction)toggleCaptureButtonPressed:(id)sender;
+-(IBAction)toggleInterpolateButtonPressed:(id)sender;
+-(IBAction)toggleColorButtonPressed:(id)sender;
+-(IBAction)toggleCLAHEButtonPressed:(id)sender;
+
+
+
+
 
 @end
 

@@ -13,7 +13,7 @@
 #include <opencv2/opencv.hpp> // Includes the opencv library
 
 // CLAHE with tiling, highly optimized with GCD and NEON
-cv::Mat clahe_neon(cv::Mat in, int tile_size, int cl, int num_bins);
+cv::Mat clahe_neon(cv::Mat in, int tile_size, int cl, int num_bins, bool should_interpolate);
 
 // CLAHE with tiling and interpolation
 cv::Mat clahe_interp(cv::Mat in, cv::Mat mirrored, int tile_size, float cl);

@@ -210,7 +210,7 @@ void interpolate(cv::Mat in, uint16_t* histLU, uint16_t* histRU, uint16_t* histL
 // histogram. To improve performance but reduce quality, shrink num_bins to 128 or 64.
 // Anything below 64 is largely unusable.
 
-cv::Mat clahe_neon(cv::Mat in, int tile_size, int clip_limit, int num_bins) {
+cv::Mat clahe_neon(cv::Mat in, int tile_size, int clip_limit, int num_bins, bool should_interpolate) {
     if (in.channels() != 1) {
         printf("must be grayscale\n");
         return in;
@@ -253,31 +253,47 @@ cv::Mat clahe_neon(cv::Mat in, int tile_size, int clip_limit, int num_bins) {
         map_histogram(hist, num_bins, tile_size * tile_size);
     });
     
-    // Interpolate, parallelizing across tiles.
-    dispatch_apply((nrY+1)*(nrX+1), queue, ^(size_t num) {
-        int tileX = num%(nrX+1), tileY = num/(nrX+1), startX = 0, startY = 0;
-        int tileYU, tileYB, tileXL, tileXR;
-        
-        uint16_t *histLU, *histRU, *histLB, *histRB;
-        
-        tileYU = tileY > 0 ? tileY - 1 : 0;
-        tileYB = tileY == nrY ? tileY - 1 : tileY;
-        
-        startY = tileY ? (tile_size >> 1) + (tileY - 1) * tile_size : 0;
-        
-        tileXL = tileX > 0 ? tileX - 1 : 0;
-        tileXR = tileX == nrX ? tileX - 1 : tileX;
-        
-        startX = tileX ? (tile_size >> 1) + (tileX - 1) * tile_size : 0;
-        
-        histLU = hists + (num_bins * (tileYU * nrX + tileXL));
-        histRU = hists + (num_bins * (tileYU * nrX + tileXR));
-        histLB = hists + (num_bins * (tileYB * nrX + tileXL));
-        histRB = hists + (num_bins * (tileYB * nrX + tileXR));
-        
-        interpolate(in, histLU, histRU, histLB, histRB, tile_size, startX, startY, out, rshift, log);
-    });
+    if (should_interpolate) {
+        // Interpolate, parallelizing across tiles.
+        dispatch_apply((nrY+1)*(nrX+1), queue, ^(size_t num) {
+            int tileX = num%(nrX+1), tileY = num/(nrX+1), startX = 0, startY = 0;
+            int tileYU, tileYB, tileXL, tileXR;
+            
+            uint16_t *histLU, *histRU, *histLB, *histRB;
+            
+            tileYU = tileY > 0 ? tileY - 1 : 0;
+            tileYB = tileY == nrY ? tileY - 1 : tileY;
+            
+            startY = tileY ? (tile_size >> 1) + (tileY - 1) * tile_size : 0;
+            
+            tileXL = tileX > 0 ? tileX - 1 : 0;
+            tileXR = tileX == nrX ? tileX - 1 : tileX;
+            
+            startX = tileX ? (tile_size >> 1) + (tileX - 1) * tile_size : 0;
+            
+            histLU = hists + (num_bins * (tileYU * nrX + tileXL));
+            histRU = hists + (num_bins * (tileYU * nrX + tileXR));
+            histLB = hists + (num_bins * (tileYB * nrX + tileXL));
+            histRB = hists + (num_bins * (tileYB * nrX + tileXR));
+            
+            interpolate(in, histLU, histRU, histLB, histRB, tile_size, startX, startY, out, rshift, log);
+        });
+    }
     
+    else {
+        dispatch_apply((nrY)*(nrX), queue, ^(size_t num) {
+            int tileX = num%(nrX), tileY = num/nrX;
+            
+            int startY = tileY ? (tile_size >> 1) + (tileY - 1) * tile_size : 0;
+            int startX = tileX ? (tile_size >> 1) + (tileX - 1) * tile_size : 0;
+            
+            uint16_t* hist = hists + (num_bins * (tileY * nrX + tileX));
+            
+            interpolate(in, hist, hist, hist, hist, tile_size, startX, startY, out, rshift, log);
+        });
+    }
+    
+
     free(hists);
     
     return out;

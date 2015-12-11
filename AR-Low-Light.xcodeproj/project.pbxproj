@@ -53,7 +53,7 @@
 		1FA92AC21C1923FF00C2E533 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		1FA92AC41C19241E00C2E533 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		1FA92AC61C19242400C2E533 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		1FC7CFD61BCF54E3002117E0 /* Canny_Edge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canny_Edge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FC7CFD61BCF54E3002117E0 /* AR-Low-Light.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR-Low-Light.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC7CFDA1BCF54E3002117E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1FC7CFDC1BCF54E3002117E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1FC7CFDD1BCF54E3002117E0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -63,10 +63,10 @@
 		1FC7CFE51BCF54E3002117E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FC7CFE81BCF54E3002117E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FC7CFEA1BCF54E3002117E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1FC7CFEF1BCF54E4002117E0 /* Canny_EdgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Canny_EdgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FC7CFEF1BCF54E4002117E0 /* AR-Low-Light.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AR-Low-Light.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC7CFF31BCF54E4002117E0 /* Canny_EdgeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Canny_EdgeTests.m; sourceTree = "<group>"; };
 		1FC7CFF51BCF54E4002117E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1FC7CFFA1BCF54E4002117E0 /* Canny_EdgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Canny_EdgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FC7CFFA1BCF54E4002117E0 /* AR-Low-Light.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AR-Low-Light.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC7CFFE1BCF54E4002117E0 /* Canny_EdgeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Canny_EdgeUITests.m; sourceTree = "<group>"; };
 		1FC7D0001BCF54E4002117E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FC7D00C1BCF552F002117E0 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
@@ -124,9 +124,9 @@
 		1FC7CFD71BCF54E3002117E0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1FC7CFD61BCF54E3002117E0 /* Canny_Edge.app */,
-				1FC7CFEF1BCF54E4002117E0 /* Canny_EdgeTests.xctest */,
-				1FC7CFFA1BCF54E4002117E0 /* Canny_EdgeUITests.xctest */,
+				1FC7CFD61BCF54E3002117E0 /* AR-Low-Light.app */,
+				1FC7CFEF1BCF54E4002117E0 /* AR-Low-Light.xctest */,
+				1FC7CFFA1BCF54E4002117E0 /* AR-Low-Light.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -198,7 +198,7 @@
 			);
 			name = "AR-Low-Light";
 			productName = Canny_Edge;
-			productReference = 1FC7CFD61BCF54E3002117E0 /* Canny_Edge.app */;
+			productReference = 1FC7CFD61BCF54E3002117E0 /* AR-Low-Light.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1FC7CFEE1BCF54E4002117E0 /* AR-Low-LightTests */ = {
@@ -216,7 +216,7 @@
 			);
 			name = "AR-Low-LightTests";
 			productName = Canny_EdgeTests;
-			productReference = 1FC7CFEF1BCF54E4002117E0 /* Canny_EdgeTests.xctest */;
+			productReference = 1FC7CFEF1BCF54E4002117E0 /* AR-Low-Light.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		1FC7CFF91BCF54E4002117E0 /* AR-Low-LightUITests */ = {
@@ -234,7 +234,7 @@
 			);
 			name = "AR-Low-LightUITests";
 			productName = Canny_EdgeUITests;
-			productReference = 1FC7CFFA1BCF54E4002117E0 /* Canny_EdgeUITests.xctest */;
+			productReference = 1FC7CFFA1BCF54E4002117E0 /* AR-Low-Light.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
