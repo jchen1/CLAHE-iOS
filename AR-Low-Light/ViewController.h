@@ -14,6 +14,7 @@
     CvVideoCamera* videoCamera;
     BOOL isCapturing;
     BOOL isCLAHE;
+    BOOL isHE;
     bool color;
     int tile_size;
     int clip_limit;
@@ -36,12 +37,14 @@ UIBarButtonItem* toggleCLAHEButton;
 UIBarButtonItem* toggleColorButton;
 @property (nonatomic, weak) IBOutlet
 UIBarButtonItem* toggleInterpolateButton;
+@property (nonatomic, weak) IBOutlet
+UIBarButtonItem* toggleHEButton;
 
 -(IBAction)toggleCaptureButtonPressed:(id)sender;
 -(IBAction)toggleInterpolateButtonPressed:(id)sender;
 -(IBAction)toggleColorButtonPressed:(id)sender;
 -(IBAction)toggleCLAHEButtonPressed:(id)sender;
-
+-(IBAction)toggleHEButtonPressed:(id)sender;
 
 
 

@@ -25,16 +25,21 @@
                                             <action selector="toggleCaptureButtonPressed:" destination="BYZ-38-t0r" id="16K-1O-Z0P"/>
                                         </connections>
                                     </barButtonItem>
-                                </items>
-                            </toolbar>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bm9-vt-wzu">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                <items>
                                     <barButtonItem title="Toggle CLAHE" id="hMx-YF-dYe">
                                         <connections>
                                             <action selector="toggleCLAHEButtonPressed:" destination="BYZ-38-t0r" id="Q46-fF-Va5"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Toggle HE" id="jJ3-rK-LHF">
+                                        <connections>
+                                            <action selector="toggleHEButtonPressed:" destination="BYZ-38-t0r" id="NL7-Kp-su5"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bm9-vt-wzu">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <items>
                                     <barButtonItem title="Toggle color" id="Dhc-3m-yXO">
                                         <connections>
                                             <action selector="toggleColorButtonPressed:" destination="BYZ-38-t0r" id="uwk-no-owN"/>
@@ -79,6 +84,7 @@
                         <outlet property="toggleCLAHEButton" destination="hMx-YF-dYe" id="dnF-nS-Ayp"/>
                         <outlet property="toggleCaptureButton" destination="raB-TV-Gtn" id="n5H-nh-tSU"/>
                         <outlet property="toggleColorButton" destination="Dhc-3m-yXO" id="8gW-Ft-v4a"/>
+                        <outlet property="toggleHEButton" destination="jJ3-rK-LHF" id="RCd-dS-aew"/>
                         <outlet property="toggleInterpolateButton" destination="zI9-W6-oOL" id="qcP-f5-TbW"/>
                     </connections>
                 </viewController>
