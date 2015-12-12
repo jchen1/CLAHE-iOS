@@ -263,38 +263,19 @@ cv::Mat he_naive(cv::Mat in) {
     long* hist = (long*) calloc(256, sizeof(long));
     
     make_histogram(hist, in);
-    auto min = 255, max = 0;
     
-    for (int i = 0; i < 256; i++) {
-        if (hist[i] > 0) {
-            if (min > i) {
-                min = i;
-            }
-            if (max < i) {
-                max = i;
-            }
-        }
-    }
-    
-    map_histogram(hist, min, max, in.rows * in.cols);
+    map_histogram(hist, 255, 0, in.rows * in.cols);
     
     cv::Mat out(in.rows, in.cols, in.type());
-    
-    min = 255; max = 0;
     
     for (int i = 0; i < in.rows; i++) {
         for (int j = 0; j < in.cols; j++) {
             uchar val = hist[in.at<uchar>(i, j)];
             out.at<uchar>(i, j) = val;
-            
-            if (min > val) min = val;
-            if (max < val) max = val;
         }
     }
     
     free(hist);
-    
-    printf("min: %d, max: %d\n", min, max);
     
     return out;
 }

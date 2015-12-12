@@ -119,7 +119,7 @@ static double machTimeToSecs(uint64_t time)
         }
         else {
             cv::Mat gray; cv::cvtColor(image, gray, CV_RGBA2GRAY);
-            clahe = he_naive(clahe);
+            clahe = he_naive(gray);
         }
     }
     
@@ -132,19 +132,20 @@ static double machTimeToSecs(uint64_t time)
         }
     }
     
-    
-    // Add fps label to the frame
-    cv::rectangle(clahe, cv::Point(30, 35), cv::Point(250, 90), cv::Scalar::all(0), CV_FILLED);
-    
-    uint64_t currTime = mach_absolute_time();
-    double timeInSeconds = machTimeToSecs(currTime - prevTime);
-    prevTime = currTime;
-    double fps = 1.0 / timeInSeconds;
-    NSString* fpsString =
-    [NSString stringWithFormat:@"FPS = %3.2f", fps];
-    cv::putText(clahe, [fpsString UTF8String],
-                cv::Point(30, 70), cv::FONT_HERSHEY_COMPLEX_SMALL,
-                1.5, cv::Scalar::all(255));
+    if (isHE || isCLAHE) {
+        // Add fps label to the frame
+        cv::rectangle(clahe, cv::Point(25, 35), cv::Point(255, 90), cv::Scalar::all(0), CV_FILLED);
+        
+        uint64_t currTime = mach_absolute_time();
+        double timeInSeconds = machTimeToSecs(currTime - prevTime);
+        prevTime = currTime;
+        double fps = 1.0 / timeInSeconds;
+        NSString* fpsString =
+        [NSString stringWithFormat:@"FPS = %3.2f", fps];
+        cv::putText(clahe, [fpsString UTF8String],
+                    cv::Point(30, 70), cv::FONT_HERSHEY_COMPLEX_SMALL,
+                    1.5, cv::Scalar::all(255));
+    }
 
     
     clahe.copyTo(image);
