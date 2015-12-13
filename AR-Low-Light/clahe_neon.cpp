@@ -94,6 +94,7 @@ void clip_histogram(uint16_t* hist, int num_bins, int clip_limit) {
     auto vec_upper = vdupq_n_u16(upper);
     auto vec_incr = vdupq_n_u16(incr);
     
+    // Perform the initial clipping
     for (int i = 0; i < num_bins; i += 8) {
         auto x = vld1q_u16(hist + i);
         
@@ -124,6 +125,8 @@ void clip_histogram(uint16_t* hist, int num_bins, int clip_limit) {
         vst1q_u16(hist + i, x);
     }
     
+    // Distribute the remaining excess equally across bins, ensuring that
+    // no bin ever exceeds clip_limit
     while (num_excess) {
         uint16_t* end = hist + num_bins, *cur = hist;
         
@@ -239,13 +242,14 @@ cv::Mat clahe_neon(cv::Mat in, int tile_size, int clip_limit, int num_bins, bool
     uint16_t* hists = (uint16_t*)calloc(num_bins*nrX * nrY, sizeof(uint16_t));
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
-    // Each thread handles a single row of tiles to avoid cache thrashing
+    // Each task handles a single row of tiles to avoid cache thrashing
     dispatch_apply(nrY, queue, ^(size_t tileY) {
         for (int i = 0; i < tile_size; i++) {
             make_histograms(hists, in, rshift, tile_size * tileY + i, tile_size, num_bins);
         }
     });
     
+    // Each task clips, then maps the histogram
     dispatch_apply(nrY*nrX, queue, ^(size_t tile) {
         auto hist = hists + num_bins*(tile);
         
@@ -256,6 +260,9 @@ cv::Mat clahe_neon(cv::Mat in, int tile_size, int clip_limit, int num_bins, bool
     if (should_interpolate) {
         // Interpolate, parallelizing across tiles.
         dispatch_apply((nrY+1)*(nrX+1), queue, ^(size_t num) {
+            
+            // Choose the four closest tiles and grab their histograms.
+            // If the tile is on an edge or corner, choose fewer tiles.
             int tileX = num%(nrX+1), tileY = num/(nrX+1), startX = 0, startY = 0;
             int tileYU, tileYB, tileXL, tileXR;
             
